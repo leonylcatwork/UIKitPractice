@@ -15,6 +15,10 @@
 		354BD2082101FF120060A9E1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 354BD2072101FF120060A9E1 /* main.m */; };
 		354BD2122101FF120060A9E1 /* UIKitPracticeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 354BD2112101FF120060A9E1 /* UIKitPracticeTests.m */; };
 		354BD21D2101FF120060A9E1 /* UIKitPracticeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 354BD21C2101FF120060A9E1 /* UIKitPracticeUITests.m */; };
+		354BD234210208970060A9E1 /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 354BD233210208970060A9E1 /* Category.m */; };
+		354BD238210208D10060A9E1 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 354BD237210208D10060A9E1 /* Book.m */; };
+		354BD23C21020BC90060A9E1 /* BookCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 354BD23A21020BC90060A9E1 /* BookCell.m */; };
+		354BD23D21020BC90060A9E1 /* BookCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 354BD23B21020BC90060A9E1 /* BookCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +55,13 @@
 		354BD2182101FF120060A9E1 /* UIKitPracticeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UIKitPracticeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		354BD21C2101FF120060A9E1 /* UIKitPracticeUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIKitPracticeUITests.m; sourceTree = "<group>"; };
 		354BD21E2101FF120060A9E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		354BD232210208970060A9E1 /* Category.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Category.h; sourceTree = "<group>"; };
+		354BD233210208970060A9E1 /* Category.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
+		354BD236210208D10060A9E1 /* Book.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
+		354BD237210208D10060A9E1 /* Book.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
+		354BD23921020BC90060A9E1 /* BookCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BookCell.h; sourceTree = "<group>"; };
+		354BD23A21020BC90060A9E1 /* BookCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BookCell.m; sourceTree = "<group>"; };
+		354BD23B21020BC90060A9E1 /* BookCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +116,10 @@
 				354BD1F92101FF100060A9E1 /* AppDelegate.m */,
 				354BD1FB2101FF100060A9E1 /* ViewController.h */,
 				354BD1FC2101FF100060A9E1 /* ViewController.m */,
+				354BD23921020BC90060A9E1 /* BookCell.h */,
+				354BD23A21020BC90060A9E1 /* BookCell.m */,
+				354BD23B21020BC90060A9E1 /* BookCell.xib */,
+				354BD235210208A20060A9E1 /* BookModel */,
 				354BD1FE2101FF100060A9E1 /* Main.storyboard */,
 				354BD2012101FF120060A9E1 /* Assets.xcassets */,
 				354BD2032101FF120060A9E1 /* LaunchScreen.storyboard */,
@@ -130,6 +145,17 @@
 				354BD21E2101FF120060A9E1 /* Info.plist */,
 			);
 			path = UIKitPracticeUITests;
+			sourceTree = "<group>";
+		};
+		354BD235210208A20060A9E1 /* BookModel */ = {
+			isa = PBXGroup;
+			children = (
+				354BD232210208970060A9E1 /* Category.h */,
+				354BD233210208970060A9E1 /* Category.m */,
+				354BD236210208D10060A9E1 /* Book.h */,
+				354BD237210208D10060A9E1 /* Book.m */,
+			);
+			path = BookModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,6 +261,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				354BD23D21020BC90060A9E1 /* BookCell.xib in Resources */,
 				354BD2052101FF120060A9E1 /* LaunchScreen.storyboard in Resources */,
 				354BD2022101FF120060A9E1 /* Assets.xcassets in Resources */,
 				354BD2002101FF100060A9E1 /* Main.storyboard in Resources */,
@@ -262,9 +289,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				354BD238210208D10060A9E1 /* Book.m in Sources */,
 				354BD1FD2101FF100060A9E1 /* ViewController.m in Sources */,
 				354BD2082101FF120060A9E1 /* main.m in Sources */,
 				354BD1FA2101FF100060A9E1 /* AppDelegate.m in Sources */,
+				354BD23C21020BC90060A9E1 /* BookCell.m in Sources */,
+				354BD234210208970060A9E1 /* Category.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +466,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8AF266Z539;
 				INFOPLIST_FILE = UIKitPractice/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -453,6 +484,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8AF266Z539;
 				INFOPLIST_FILE = UIKitPractice/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
