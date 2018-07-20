@@ -54,10 +54,10 @@
     book1.author = @"未知1";
 
     Book *book2 = Book.new;
-    book1.title = @"小学英语2年级";
-    book1.author = @"未知2";
+    book2.title = @"小学英语2年级";
+    book2.author = @"未知2";
 
-    category.books = @[book1, book2];
+    category.books = [NSArray arrayWithObjects:book1, book2, nil];
 
     self.data = @[category];
 }
@@ -83,14 +83,17 @@
     return bookCell;
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 50;
 }
 
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return UIView.new;
+    UIView *view = [[UIView alloc] init];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(16, 14, 200, 22)];
+    [view addSubview:label];
+    label.text = [self.data[section] title];
+    return view;
 }
 
 
