@@ -15,6 +15,7 @@
 
 @property (nonatomic, copy) NSArray <Category *> *data;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *array;
 
 @end
 
@@ -24,6 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initModels];
+    [self setArray];
 
     [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass(BookCell.class) bundle:nil]
      forCellReuseIdentifier:NSStringFromClass(BookCell.class)];
@@ -37,6 +39,15 @@
     _tableView.tableFooterView = UIView.new;
     _tableView.delegate = self;
     _tableView.dataSource = self;
+}
+
+
+- (void)setArray {
+    self.array = [[NSMutableArray alloc] init];
+    int i;
+    for (i = 0; i < self.data.count; i++){
+        [self.array addObject:@"0"];
+    }
 }
 
 
@@ -72,7 +83,9 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [[self.data[section] books] count];
+    NSString *string = [self.array objectAtIndex:section];
+    if ([string  isEqual: @"0"]) return 0;
+    else return [[self.data[section] books] count];
 }
 
 
@@ -89,15 +102,27 @@
 
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] init];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(16, 14, 200, 22)];
-    [view addSubview:label];
-    label.text = [self.data[section] title];
-    return view;
+    CGRect screen = [[UIScreen mainScreen] bounds];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    button.frame = CGRectMake(0, 0, screen.size.width, 50);
+    [button setTitle:[self.data[section] title] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(clickHeaderInSection:) forControlEvents:UIControlEventTouchUpInside];
+    button.tag = section + 1000;
+    return button;
 }
 
 
-#pragma mark -
+- (void)clickHeaderInSection:(UIButton *)sender {
+    int section = (int)sender.tag - 1000;
+    NSString *string = [self.array objectAtIndex:section];
+    if ([string  isEqual: @"0"]) {
+        [self.array replaceObjectAtIndex:section withObject:@"1"];
+    } else {
+        [self.array replaceObjectAtIndex:section withObject:@"0"];
+    }
+    //[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:temp] withRowAnimation:(UITableViewRowAnimationFade)];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+}
 
 
 
