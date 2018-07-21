@@ -174,7 +174,7 @@
     UIView *view2 = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     view2.tag = 2000;
     view2.backgroundColor = [UIColor whiteColor];
-    self.view = view2;
+    [self.view addSubview:view2];
     
     UIView *viewlll = UIView.new;
     viewlll.frame = CGRectMake(0, statusRect.size.height, screen.size.width, 100);
@@ -195,5 +195,9 @@
     [view2 addSubview:self.tableView2];
 }
 
+
+- (void)clickButtonLastView:(id)sender {
+    [[[UIApplication sharedApplication].keyWindow viewWithTag:2000] removeFromSuperview];
+}
 
 @end
