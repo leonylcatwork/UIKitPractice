@@ -19,6 +19,7 @@
 		354BD238210208D10060A9E1 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 354BD237210208D10060A9E1 /* Book.m */; };
 		354BD23C21020BC90060A9E1 /* BookCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 354BD23A21020BC90060A9E1 /* BookCell.m */; };
 		354BD23D21020BC90060A9E1 /* BookCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 354BD23B21020BC90060A9E1 /* BookCell.xib */; };
+		7354C4C72103014100085A88 /* Categorys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7354C4C62103014100085A88 /* Categorys.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		354BD23921020BC90060A9E1 /* BookCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BookCell.h; sourceTree = "<group>"; };
 		354BD23A21020BC90060A9E1 /* BookCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BookCell.m; sourceTree = "<group>"; };
 		354BD23B21020BC90060A9E1 /* BookCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookCell.xib; sourceTree = "<group>"; };
+		7354C4C62103014100085A88 /* Categorys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Categorys.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 				354BD1F92101FF100060A9E1 /* AppDelegate.m */,
 				354BD1FB2101FF100060A9E1 /* ViewController.h */,
 				354BD1FC2101FF100060A9E1 /* ViewController.m */,
+				7354C4C62103014100085A88 /* Categorys.plist */,
 				354BD23921020BC90060A9E1 /* BookCell.h */,
 				354BD23A21020BC90060A9E1 /* BookCell.m */,
 				354BD23B21020BC90060A9E1 /* BookCell.xib */,
@@ -262,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				354BD23D21020BC90060A9E1 /* BookCell.xib in Resources */,
+				7354C4C72103014100085A88 /* Categorys.plist in Resources */,
 				354BD2052101FF120060A9E1 /* LaunchScreen.storyboard in Resources */,
 				354BD2022101FF120060A9E1 /* Assets.xcassets in Resources */,
 				354BD2002101FF100060A9E1 /* Main.storyboard in Resources */,

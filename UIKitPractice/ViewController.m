@@ -16,6 +16,7 @@
 @property (nonatomic, copy) NSArray <Category *> *data;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *array;
+@property (nonatomic, strong) UITableView *tableView2;
 
 @end
 
@@ -26,7 +27,11 @@
     [super viewDidLoad];
     [self initModels];
     [self setArray];
-
+    
+    
+    CGRect screen = [[UIScreen mainScreen] bounds];
+    
+    
     [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass(BookCell.class) bundle:nil]
      forCellReuseIdentifier:NSStringFromClass(BookCell.class)];
 
@@ -34,6 +39,11 @@
     UIView *view = UIView.new;
     view.frame = CGRectMake(0, 0, 100, 100);
     view.backgroundColor = [UIColor.redColor colorWithAlphaComponent:0.1];
+    UIButton *buttonNextView = [UIButton buttonWithType:UIButtonTypeSystem];
+    buttonNextView.frame = CGRectMake(screen.size.width - 75, 25, 50, 50);
+    buttonNextView.backgroundColor = [UIColor whiteColor];
+    [buttonNextView addTarget:self action:@selector(clickButtonNextView:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:buttonNextView];
 
     _tableView.tableHeaderView = view;
     _tableView.tableFooterView = UIView.new;
@@ -71,6 +81,11 @@
     category.books = [NSArray arrayWithObjects:book1, book2, nil];
 
     self.data = @[category];
+    
+    /*NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
+    NSString *fileName = [path stringByAppendingPathComponent:@ "Categorys.plist"];
+    
+    self.data = [NSArray arrayWithContentsOfFile:fileName];*/
 }
 
 
@@ -90,10 +105,22 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    BookCell *bookCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(BookCell.class) forIndexPath:indexPath];
-    Book *book = [self.data[indexPath.section] books][indexPath.row];
-    [bookCell setTitle:book.title];
-    return bookCell;
+    if ([tableView isEqual:self.tableView]) {
+        BookCell *bookCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(BookCell.class) forIndexPath:indexPath];
+        Book *book = [self.data[indexPath.section] books][indexPath.row];
+        [bookCell setTitle:book.title];
+        return bookCell;
+    } else {
+        CGRect screen = [[UIScreen mainScreen] bounds];
+        
+        UITableViewCell *view = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, screen.size.width, 50)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(16, 11, screen.size.width, 22)];
+        Book *book = [self.data[indexPath.section] books][indexPath.row];
+        label.text = book.title;
+        [view addSubview:label];
+        return view;
+        
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -105,8 +132,10 @@
     CGRect screen = [[UIScreen mainScreen] bounds];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
     button.frame = CGRectMake(0, 0, screen.size.width, 50);
+    button.backgroundColor = [UIColor grayColor];
     [button setTitle:[self.data[section] title] forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(clickHeaderInSection:) forControlEvents:UIControlEventTouchUpInside];
+    if ([tableView isEqual:self.tableView]) [button addTarget:self action:@selector(clickHeaderInSection:) forControlEvents:UIControlEventTouchUpInside];
+    else [button addTarget:self action:@selector(clickHeaderInSection2:) forControlEvents:UIControlEventTouchUpInside];
     button.tag = section + 1000;
     return button;
 }
@@ -120,10 +149,51 @@
     } else {
         [self.array replaceObjectAtIndex:section withObject:@"0"];
     }
-    //[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:temp] withRowAnimation:(UITableViewRowAnimationFade)];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
 }
 
+- (void)clickHeaderInSection2:(UIButton *)sender {
+    int section = (int)sender.tag - 1000;
+    NSString *string = [self.array objectAtIndex:section];
+    if ([string  isEqual: @"0"]) {
+        [self.array replaceObjectAtIndex:section withObject:@"1"];
+    } else {
+        [self.array replaceObjectAtIndex:section withObject:@"0"];
+    }
+    [self.tableView2 reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+
+- (void)clickButtonNextView:(id)sender {
+    
+    CGRect screen = [[UIScreen mainScreen] bounds];
+    CGRect statusRect = [[UIApplication sharedApplication] statusBarFrame];
+    [self initModels];
+    [self setArray];
+    
+    UIView *view2 = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    view2.tag = 2000;
+    view2.backgroundColor = [UIColor whiteColor];
+    self.view = view2;
+    
+    UIView *viewlll = UIView.new;
+    viewlll.frame = CGRectMake(0, statusRect.size.height, screen.size.width, 100);
+    viewlll.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.1];
+    [view2 addSubview:viewlll];
+    
+    UIButton *buttonLastView = [UIButton buttonWithType:UIButtonTypeSystem];
+    buttonLastView.frame = CGRectMake(25, 25, 50, 50);
+    buttonLastView.backgroundColor = [UIColor whiteColor];
+    [buttonLastView addTarget:self action:@selector(clickButtonLastView:) forControlEvents:UIControlEventTouchUpInside];
+    [viewlll addSubview:buttonLastView];
+    
+    self.tableView2 = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screen.size.width, screen.size.height) style:UITableViewStylePlain];
+    self.tableView2.tableHeaderView = viewlll;
+    self.tableView2.tableFooterView = nil;
+    self.tableView2.delegate = self;
+    self.tableView2.dataSource = self;
+    [view2 addSubview:self.tableView2];
+}
 
 
 @end
