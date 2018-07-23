@@ -98,7 +98,7 @@
 
 
 - (void)initModels {
-    Category *category = Category.new;
+    /*Category *category = Category.new;
     category.title = @"小学英语";
     Book *book1 = Book.new;
     book1.title = @"小学英语1年级";
@@ -120,9 +120,25 @@
     book4.title = @"初中英语2年级";
     book4.author = @"未知2";
     
-    category2.books = [NSArray arrayWithObjects:book3, book4, nil];
+    Book *book5 = Book.new;
+    book5.title = @"初中英语3年级";
+    book5.author = @"未知2";
+    
+    category2.books = [NSArray arrayWithObjects:book3, book4, book5, nil];
 
-    self.data = @[category, category2];
+    self.data = @[category, category2];*/
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"JSONString" ofType:@"txt"];
+    NSString *jsonString = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+    
+    NSLog(@"%@", jsonString);
+    
+    NSData *JSONData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSArray *responseJSON = nil;
+    if (JSONData) {
+        responseJSON = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableContainers error:nil];
+    }
+    
+    NSLog(@"%@", responseJSON);
     
 }
 
