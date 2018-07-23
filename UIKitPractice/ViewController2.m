@@ -1,63 +1,60 @@
 //
-//  ViewController.m
+//  ViewController2.m
 //  UIKitPractice
 //
-//  Created by leon on 20/07/2018.
+//  Created by Yuan Ana on 2018/7/23.
 //  Copyright © 2018 Maimemo Inc. All rights reserved.
 //
 
-#import "ViewController.h"
-#import "Category.h"
-#import "BookCell.h"
-#import "MyButton.h"
 #import "ViewController2.h"
+#import "Category.h"
+#import "MyButton.h"
 
 
-@interface ViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface ViewController2 () <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, copy) NSArray <Category *> *data;
-@property (nonatomic, weak) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *array;
-@property (nonatomic, strong) ViewController2 *viewController2;
+@property (nonatomic, copy) NSArray <Category *> *data2;
+@property (nonatomic, weak) UITableView *tableView2;
+@property (nonatomic, strong) NSMutableArray *array2;
 
 - (NSString *)replaceUnicode:(NSString *)unicodeStr;
 
 @end
 
 
-@implementation ViewController
+@implementation ViewController2
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initModels];
     [self setArray];
     
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStylePlain];
+    _tableView2 = tableView;
+    [self.view addSubview:_tableView2];
     
-    [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass(BookCell.class) bundle:nil]
-     forCellReuseIdentifier:NSStringFromClass(BookCell.class)];
-
-
     UIView *view = UIView.new;
     view.frame = CGRectMake(0, 0, 100, 100);
-    view.backgroundColor = [UIColor.redColor colorWithAlphaComponent:0.1];
+    view.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.1];
     UIButton *buttonNextView = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonNextView.frame = CGRectMake(self.view.bounds.size.width - 75, 25, 50, 50);
+    buttonNextView.frame = CGRectMake(25, 25, 50, 50);
     buttonNextView.backgroundColor = [UIColor whiteColor];
-    [buttonNextView addTarget:self action:@selector(clickButtonNextView:) forControlEvents:UIControlEventTouchUpInside];
+    [buttonNextView addTarget:self action:@selector(clickButtonLastView:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:buttonNextView];
-
-    _tableView.tableHeaderView = view;
-    _tableView.tableFooterView = UIView.new;
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
+    
+    _tableView2.tableHeaderView = view;
+    _tableView2.tableFooterView = UIView.new;
+    _tableView2.delegate = self;
+    _tableView2.dataSource = self;
+    [_tableView2 addSubview:view];
 }
 
 
 - (void)setArray {
-    self.array = [[NSMutableArray alloc] init];
+    self.array2 = [[NSMutableArray alloc] init];
     int i;
-    for (i = 0; i < self.data.count; i++){
-        [self.array addObject:@"0"];
+    for (i = 0; i < self.data2.count; i++){
+        [self.array2 addObject:@"0"];
     }
 }
 
@@ -74,11 +71,11 @@
     Book *book1 = Book.new;
     book1.title = @"小学英语1年级";
     book1.author = @"未知1";
-
+    
     Book *book2 = Book.new;
     book2.title = @"小学英语2年级";
     book2.author = @"未知2";
-
+    
     category.books = [NSArray arrayWithObjects:book1, book2, nil];
     
     Category *category2 = Category.new;
@@ -96,20 +93,20 @@
     book5.author = @"未知2";
     
     category2.books = [NSArray arrayWithObjects:book3, book4, book5, nil];
-
-    self.data = @[category, category2];
+    
+    self.data2 = @[category, category2];
     /*NSString *path = [[NSBundle mainBundle] pathForResource:@"JSONString" ofType:@"txt"];
-    NSString *jsonString = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-    
-    NSLog(@"%@", jsonString);
-    
-    NSData *JSONData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-    NSArray *responseJSON = nil;
-    if (JSONData) {
-        responseJSON = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableContainers error:nil];
-    }
-    
-    NSLog(@"%@", responseJSON);*/
+     NSString *jsonString = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+     
+     NSLog(@"%@", jsonString);
+     
+     NSData *JSONData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+     NSArray *responseJSON = nil;
+     if (JSONData) {
+     responseJSON = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableContainers error:nil];
+     }
+     
+     NSLog(@"%@", responseJSON);*/
     
 }
 
@@ -133,35 +130,28 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.data.count;
+    return self.data2.count;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSString *string;
-    string = [self.array objectAtIndex:section];
+    string = [self.array2 objectAtIndex:section];
     if ([string  isEqual: @"0"]) return 0;
-    else return [[self.data[section] books] count];
+    else return [[self.data2[section] books] count];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([tableView isEqual:self.tableView]) {
-        BookCell *bookCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(BookCell.class) forIndexPath:indexPath];
-        Book *book = [self.data[indexPath.section] books][indexPath.row];
-        [bookCell setTitle:book.title];
-        return bookCell;
-    } else {
-        CGRect screen = [[UIScreen mainScreen] bounds];
+    CGRect screen = [[UIScreen mainScreen] bounds];
         
-        UITableViewCell *view = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, screen.size.width, 50)];
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(16, 11, screen.size.width, 22)];
-        Book *book = [self.data[indexPath.section] books][indexPath.row];
-        label.text = book.title;
-        [view addSubview:label];
-        return view;
-        
-    }
+    UITableViewCell *view = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, screen.size.width, 50)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(16, 11, screen.size.width, 22)];
+    Book *book = [self.data2[indexPath.section] books][indexPath.row];
+    label.text = book.title;
+    [view addSubview:label];
+    return view;
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -174,7 +164,7 @@
     MyButton *button = [MyButton buttonWithType:UIButtonTypeSystem];
     button.frame = CGRectMake(0, 0, screen.size.width, 50);
     button.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.3];
-    [button setTitle:[self.data[section] title] forState:UIControlStateNormal];
+    [button setTitle:[self.data2[section] title] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(clickHeaderInSection:) forControlEvents:UIControlEventTouchUpInside];
     button.section = (int)section;
     return button;
@@ -183,22 +173,19 @@
 
 - (void)clickHeaderInSection:(MyButton *)sender {
     int section = sender.section;
-    NSString *string = [self.array objectAtIndex:section];
+    NSString *string = [self.array2 objectAtIndex:section];
     if ([string  isEqual: @"0"]) {
-        [self.array replaceObjectAtIndex:section withObject:@"1"];
+        [self.array2 replaceObjectAtIndex:section withObject:@"1"];
     } else {
-        [self.array replaceObjectAtIndex:section withObject:@"0"];
+        [self.array2 replaceObjectAtIndex:section withObject:@"0"];
     }
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView2 reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 
-- (void)clickButtonNextView:(id)sender {
-    if (!_viewController2) {
-        _viewController2 = [[ViewController2 alloc] init];
-    }
+- (void)clickButtonLastView:(id)sender {
     
-    [self presentViewController:_viewController2 animated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

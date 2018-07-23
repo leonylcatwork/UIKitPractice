@@ -20,6 +20,8 @@
 		354BD23C21020BC90060A9E1 /* BookCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 354BD23A21020BC90060A9E1 /* BookCell.m */; };
 		354BD23D21020BC90060A9E1 /* BookCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 354BD23B21020BC90060A9E1 /* BookCell.xib */; };
 		7324C0512105A4840038A181 /* JSONString.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7324C0502105A4840038A181 /* JSONString.txt */; };
+		7324C0542105B8120038A181 /* ViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 7324C0532105B8120038A181 /* ViewController2.m */; };
+		7324C0572105ED680038A181 /* MyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7324C0562105ED680038A181 /* MyButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,10 @@
 		354BD23A21020BC90060A9E1 /* BookCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BookCell.m; sourceTree = "<group>"; };
 		354BD23B21020BC90060A9E1 /* BookCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookCell.xib; sourceTree = "<group>"; };
 		7324C0502105A4840038A181 /* JSONString.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = JSONString.txt; sourceTree = "<group>"; };
+		7324C0522105B8120038A181 /* ViewController2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController2.h; sourceTree = "<group>"; };
+		7324C0532105B8120038A181 /* ViewController2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController2.m; sourceTree = "<group>"; };
+		7324C0552105ED680038A181 /* MyButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyButton.h; sourceTree = "<group>"; };
+		7324C0562105ED680038A181 /* MyButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,11 +120,15 @@
 		354BD1F72101FF100060A9E1 /* UIKitPractice */ = {
 			isa = PBXGroup;
 			children = (
+				7324C0552105ED680038A181 /* MyButton.h */,
+				7324C0562105ED680038A181 /* MyButton.m */,
 				7324C0502105A4840038A181 /* JSONString.txt */,
 				354BD1F82101FF100060A9E1 /* AppDelegate.h */,
 				354BD1F92101FF100060A9E1 /* AppDelegate.m */,
 				354BD1FB2101FF100060A9E1 /* ViewController.h */,
 				354BD1FC2101FF100060A9E1 /* ViewController.m */,
+				7324C0522105B8120038A181 /* ViewController2.h */,
+				7324C0532105B8120038A181 /* ViewController2.m */,
 				354BD23921020BC90060A9E1 /* BookCell.h */,
 				354BD23A21020BC90060A9E1 /* BookCell.m */,
 				354BD23B21020BC90060A9E1 /* BookCell.xib */,
@@ -293,12 +303,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7324C0542105B8120038A181 /* ViewController2.m in Sources */,
 				354BD238210208D10060A9E1 /* Book.m in Sources */,
 				354BD1FD2101FF100060A9E1 /* ViewController.m in Sources */,
 				354BD2082101FF120060A9E1 /* main.m in Sources */,
 				354BD1FA2101FF100060A9E1 /* AppDelegate.m in Sources */,
 				354BD23C21020BC90060A9E1 /* BookCell.m in Sources */,
 				354BD234210208970060A9E1 /* Category.m in Sources */,
+				7324C0572105ED680038A181 /* MyButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
