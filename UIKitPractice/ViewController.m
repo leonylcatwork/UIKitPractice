@@ -109,8 +109,20 @@
     book2.author = @"未知2";
 
     category.books = [NSArray arrayWithObjects:book1, book2, nil];
+    
+    Category *category2 = Category.new;
+    category2.title = @"初中英语";
+    Book *book3 = Book.new;
+    book3.title = @"初中英语1年级";
+    book3.author = @"未知1";
+    
+    Book *book4 = Book.new;
+    book4.title = @"初中英语2年级";
+    book4.author = @"未知2";
+    
+    category2.books = [NSArray arrayWithObjects:book3, book4, nil];
 
-    self.data = @[category];
+    self.data = @[category, category2];
     
 }
 
@@ -177,7 +189,7 @@
     } else {
         [self.array replaceObjectAtIndex:section withObject:@"0"];
     }
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)clickHeaderInSection2:(UIButton *)sender {
@@ -188,7 +200,7 @@
     } else {
         [self.array2 replaceObjectAtIndex:section withObject:@"0"];
     }
-    [self.tableView2 reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView2 reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 
