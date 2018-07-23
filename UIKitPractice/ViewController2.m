@@ -36,11 +36,6 @@
     UIView *view = UIView.new;
     view.frame = CGRectMake(0, 0, 100, 100);
     view.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.1];
-    UIButton *buttonNextView = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonNextView.frame = CGRectMake(25, 25, 50, 50);
-    buttonNextView.backgroundColor = [UIColor whiteColor];
-    [buttonNextView addTarget:self action:@selector(clickButtonLastView:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:buttonNextView];
     
     _tableView2.tableHeaderView = view;
     _tableView2.tableFooterView = UIView.new;
@@ -181,12 +176,5 @@
     }
     [self.tableView2 reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationNone];
 }
-
-
-- (void)clickButtonLastView:(id)sender {
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 
 @end

@@ -19,6 +19,7 @@
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *array;
 @property (nonatomic, strong) ViewController2 *viewController2;
+- (IBAction)nextView:(UIBarButtonItem *)sender;
 
 - (NSString *)replaceUnicode:(NSString *)unicodeStr;
 
@@ -40,12 +41,7 @@
     UIView *view = UIView.new;
     view.frame = CGRectMake(0, 0, 100, 100);
     view.backgroundColor = [UIColor.redColor colorWithAlphaComponent:0.1];
-    UIButton *buttonNextView = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonNextView.frame = CGRectMake(self.view.bounds.size.width - 75, 25, 50, 50);
-    buttonNextView.backgroundColor = [UIColor whiteColor];
-    [buttonNextView addTarget:self action:@selector(clickButtonNextView:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:buttonNextView];
-
+    
     _tableView.tableHeaderView = view;
     _tableView.tableFooterView = UIView.new;
     _tableView.delegate = self;
@@ -113,6 +109,14 @@
     
 }
 
+- (IBAction)nextView:(UIBarButtonItem *)sender {
+    if (!_viewController2) {
+        _viewController2 = [[ViewController2 alloc] init];
+    }
+    
+    [self.navigationController pushViewController:_viewController2 animated:YES];
+}
+
 - (NSString *)replaceUnicode:(NSString *)unicodeStr {
     
     NSString *tempStr1 = [unicodeStr stringByReplacingOccurrencesOfString:@"\\u" withString:@"\\U"];
@@ -146,22 +150,10 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([tableView isEqual:self.tableView]) {
-        BookCell *bookCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(BookCell.class) forIndexPath:indexPath];
-        Book *book = [self.data[indexPath.section] books][indexPath.row];
-        [bookCell setTitle:book.title];
-        return bookCell;
-    } else {
-        CGRect screen = [[UIScreen mainScreen] bounds];
-        
-        UITableViewCell *view = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, screen.size.width, 50)];
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(16, 11, screen.size.width, 22)];
-        Book *book = [self.data[indexPath.section] books][indexPath.row];
-        label.text = book.title;
-        [view addSubview:label];
-        return view;
-        
-    }
+    BookCell *bookCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(BookCell.class) forIndexPath:indexPath];
+    Book *book = [self.data[indexPath.section] books][indexPath.row];
+    [bookCell setTitle:book.title];
+    return bookCell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -191,15 +183,5 @@
     }
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationNone];
 }
-
-
-- (void)clickButtonNextView:(id)sender {
-    if (!_viewController2) {
-        _viewController2 = [[ViewController2 alloc] init];
-    }
-    
-    [self presentViewController:_viewController2 animated:YES completion:nil];
-}
-
 
 @end
