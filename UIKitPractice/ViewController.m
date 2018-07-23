@@ -17,6 +17,7 @@
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *array;
 @property (nonatomic, strong) UITableView *tableView2;
+@property (nonatomic, strong) UIView *view2;
 
 @end
 
@@ -49,6 +50,30 @@
     _tableView.tableFooterView = UIView.new;
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    
+    CGRect statusRect = [[UIApplication sharedApplication] statusBarFrame];
+    
+    self.view2 = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.view2.tag = 2000;
+    self.view2.backgroundColor = [UIColor whiteColor];
+    
+    UIView *viewlll = UIView.new;
+    viewlll.frame = CGRectMake(0, statusRect.size.height, screen.size.width, 100);
+    viewlll.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.1];
+    [self.view2 addSubview:viewlll];
+    
+    UIButton *buttonLastView = [UIButton buttonWithType:UIButtonTypeSystem];
+    buttonLastView.frame = CGRectMake(25, 25, 50, 50);
+    buttonLastView.backgroundColor = [UIColor whiteColor];
+    [buttonLastView addTarget:self action:@selector(clickButtonLastView:) forControlEvents:UIControlEventTouchUpInside];
+    [viewlll addSubview:buttonLastView];
+    
+    self.tableView2 = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screen.size.width, screen.size.height) style:UITableViewStylePlain];
+    self.tableView2.tableHeaderView = viewlll;
+    self.tableView2.tableFooterView = nil;
+    self.tableView2.delegate = self;
+    self.tableView2.dataSource = self;
+    [self.view2 addSubview:self.tableView2];
 }
 
 
@@ -132,7 +157,7 @@
     CGRect screen = [[UIScreen mainScreen] bounds];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
     button.frame = CGRectMake(0, 0, screen.size.width, 50);
-    button.backgroundColor = [UIColor grayColor];
+    button.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.3];
     [button setTitle:[self.data[section] title] forState:UIControlStateNormal];
     if ([tableView isEqual:self.tableView]) [button addTarget:self action:@selector(clickHeaderInSection:) forControlEvents:UIControlEventTouchUpInside];
     else [button addTarget:self action:@selector(clickHeaderInSection2:) forControlEvents:UIControlEventTouchUpInside];
@@ -166,33 +191,7 @@
 
 - (void)clickButtonNextView:(id)sender {
     
-    CGRect screen = [[UIScreen mainScreen] bounds];
-    CGRect statusRect = [[UIApplication sharedApplication] statusBarFrame];
-    [self initModels];
-    [self setArray];
-    
-    UIView *view2 = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    view2.tag = 2000;
-    view2.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:view2];
-    
-    UIView *viewlll = UIView.new;
-    viewlll.frame = CGRectMake(0, statusRect.size.height, screen.size.width, 100);
-    viewlll.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.1];
-    [view2 addSubview:viewlll];
-    
-    UIButton *buttonLastView = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonLastView.frame = CGRectMake(25, 25, 50, 50);
-    buttonLastView.backgroundColor = [UIColor whiteColor];
-    [buttonLastView addTarget:self action:@selector(clickButtonLastView:) forControlEvents:UIControlEventTouchUpInside];
-    [viewlll addSubview:buttonLastView];
-    
-    self.tableView2 = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screen.size.width, screen.size.height) style:UITableViewStylePlain];
-    self.tableView2.tableHeaderView = viewlll;
-    self.tableView2.tableFooterView = nil;
-    self.tableView2.delegate = self;
-    self.tableView2.dataSource = self;
-    [view2 addSubview:self.tableView2];
+    [self.view addSubview:self.view2];
 }
 
 
