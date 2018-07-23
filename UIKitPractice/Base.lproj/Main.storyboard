@@ -35,7 +35,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="pBn-II-kiC">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="byE-Ph-PXt">
+                        <barButtonItem key="rightBarButtonItem" title="NextView" id="byE-Ph-PXt">
                             <connections>
                                 <action selector="nextView:" destination="BYZ-38-t0r" id="uJo-xI-F8b"/>
                             </connections>
