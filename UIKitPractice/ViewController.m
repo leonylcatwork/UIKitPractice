@@ -20,6 +20,8 @@
 @property (nonatomic, strong) UIView *view2;
 @property (nonatomic, strong) NSMutableArray *array2;
 
+- (NSString *)replaceUnicode:(NSString *)unicodeStr;
+
 @end
 
 
@@ -31,9 +33,6 @@
     [self setArray];
     
     
-    CGRect screen = [[UIScreen mainScreen] bounds];
-    
-    
     [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass(BookCell.class) bundle:nil]
      forCellReuseIdentifier:NSStringFromClass(BookCell.class)];
 
@@ -42,7 +41,7 @@
     view.frame = CGRectMake(0, 0, 100, 100);
     view.backgroundColor = [UIColor.redColor colorWithAlphaComponent:0.1];
     UIButton *buttonNextView = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonNextView.frame = CGRectMake(screen.size.width - 75, 25, 50, 50);
+    buttonNextView.frame = CGRectMake(self.view.bounds.size.width - 75, 25, 50, 50);
     buttonNextView.backgroundColor = [UIColor whiteColor];
     [buttonNextView addTarget:self action:@selector(clickButtonNextView:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:buttonNextView];
@@ -59,7 +58,7 @@
     self.view2.backgroundColor = [UIColor whiteColor];
     
     UIView *viewlll = UIView.new;
-    viewlll.frame = CGRectMake(0, statusRect.size.height, screen.size.width, 100);
+    viewlll.frame = CGRectMake(0, statusRect.size.height, self.view.bounds.size.width, 100);
     viewlll.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.1];
     [self.view2 addSubview:viewlll];
     
@@ -69,7 +68,7 @@
     [buttonLastView addTarget:self action:@selector(clickButtonLastView:) forControlEvents:UIControlEventTouchUpInside];
     [viewlll addSubview:buttonLastView];
     
-    self.tableView2 = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screen.size.width, screen.size.height) style:UITableViewStylePlain];
+    self.tableView2 = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStylePlain];
     self.tableView2.tableHeaderView = viewlll;
     self.tableView2.tableFooterView = nil;
     self.tableView2.delegate = self;
@@ -98,7 +97,7 @@
 
 
 - (void)initModels {
-    /*Category *category = Category.new;
+    Category *category = Category.new;
     category.title = @"小学英语";
     Book *book1 = Book.new;
     book1.title = @"小学英语1年级";
@@ -126,8 +125,8 @@
     
     category2.books = [NSArray arrayWithObjects:book3, book4, book5, nil];
 
-    self.data = @[category, category2];*/
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"JSONString" ofType:@"txt"];
+    self.data = @[category, category2];
+    /*NSString *path = [[NSBundle mainBundle] pathForResource:@"JSONString" ofType:@"txt"];
     NSString *jsonString = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     
     NSLog(@"%@", jsonString);
@@ -138,10 +137,25 @@
         responseJSON = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableContainers error:nil];
     }
     
-    NSLog(@"%@", responseJSON);
+    NSLog(@"%@", responseJSON);*/
     
 }
 
+- (NSString *)replaceUnicode:(NSString *)unicodeStr {
+    
+    NSString *tempStr1 = [unicodeStr stringByReplacingOccurrencesOfString:@"\\u" withString:@"\\U"];
+    NSString *tempStr2 = [tempStr1 stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+    NSString *tempStr3 = [[@"\"" stringByAppendingString:tempStr2] stringByAppendingString:@"\""];
+    NSData *tempData = [tempStr3 dataUsingEncoding:NSUTF8StringEncoding];
+    NSString* returnStr = [NSPropertyListSerialization propertyListWithData:tempData
+                                                                    options:NSPropertyListImmutable
+                                                                     format:NULL
+                                                                      error:NULL];
+    
+    //NSLog(@"Output = %@", returnStr);
+    
+    return [returnStr stringByReplacingOccurrencesOfString:@"\\r\\n" withString:@"\n"];
+}
 
 #pragma mark - table view data source / delegate
 
@@ -153,8 +167,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSString *string;
-    if ([tableView isEqual:self.tableView]) string = [self.array objectAtIndex:section];
-    else string = [self.array2 objectAtIndex:section];
+    if ([tableView isEqual:self.tableView]) {
+        string = [self.array objectAtIndex:section];
+    } else {
+        string = [self.array2 objectAtIndex:section];
+    }
     if ([string  isEqual: @"0"]) return 0;
     else return [[self.data[section] books] count];
 }
