@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSMutableArray *array;
 @property (nonatomic, strong) UITableView *tableView2;
 @property (nonatomic, strong) UIView *view2;
+@property (nonatomic, strong) NSMutableArray *array2;
 
 @end
 
@@ -83,6 +84,10 @@
     for (i = 0; i < self.data.count; i++){
         [self.array addObject:@"0"];
     }
+    self.array2 = [[NSMutableArray alloc] init];
+    for (i = 0; i < self.data.count; i++){
+        [self.array2 addObject:@"0"];
+    }
 }
 
 
@@ -107,10 +112,6 @@
 
     self.data = @[category];
     
-    /*NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
-    NSString *fileName = [path stringByAppendingPathComponent:@ "Categorys.plist"];
-    
-    self.data = [NSArray arrayWithContentsOfFile:fileName];*/
 }
 
 
@@ -123,7 +124,9 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSString *string = [self.array objectAtIndex:section];
+    NSString *string;
+    if ([tableView isEqual:self.tableView]) string = [self.array objectAtIndex:section];
+    else string = [self.array2 objectAtIndex:section];
     if ([string  isEqual: @"0"]) return 0;
     else return [[self.data[section] books] count];
 }
@@ -179,11 +182,11 @@
 
 - (void)clickHeaderInSection2:(UIButton *)sender {
     int section = (int)sender.tag - 1000;
-    NSString *string = [self.array objectAtIndex:section];
+    NSString *string = [self.array2 objectAtIndex:section];
     if ([string  isEqual: @"0"]) {
-        [self.array replaceObjectAtIndex:section withObject:@"1"];
+        [self.array2 replaceObjectAtIndex:section withObject:@"1"];
     } else {
-        [self.array replaceObjectAtIndex:section withObject:@"0"];
+        [self.array2 replaceObjectAtIndex:section withObject:@"0"];
     }
     [self.tableView2 reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
 }
