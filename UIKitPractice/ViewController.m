@@ -9,16 +9,15 @@
 #import "ViewController.h"
 #import "Category.h"
 #import "BookCell.h"
-#import "MyButton.h"
 #import "ViewController2.h"
 
 
 @interface ViewController () <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, copy) NSArray <Category *> *data;
+@property (nonatomic, strong) NSArray <Category *> *data;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *array;
 @property (nonatomic, strong) ViewController2 *viewController2;
+
 - (IBAction)nextView:(UIBarButtonItem *)sender;
 
 @end
@@ -29,8 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initModels];
-    [self setArray];
-    
+
     
     [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass(BookCell.class) bundle:nil]
      forCellReuseIdentifier:NSStringFromClass(BookCell.class)];
@@ -45,16 +43,6 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
 }
-
-
-- (void)setArray {
-    self.array = [[NSMutableArray alloc] init];
-    int i;
-    for (i = 0; i < self.data.count; i++){
-        [self.array addObject:@"0"];
-    }
-}
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -103,22 +91,6 @@
     [self.navigationController pushViewController:_viewController2 animated:YES];
 }
 
-- (NSString *)replaceUnicode:(NSString *)unicodeStr {
-    
-    NSString *tempStr1 = [unicodeStr stringByReplacingOccurrencesOfString:@"\\u" withString:@"\\U"];
-    NSString *tempStr2 = [tempStr1 stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
-    NSString *tempStr3 = [[@"\"" stringByAppendingString:tempStr2] stringByAppendingString:@"\""];
-    NSData *tempData = [tempStr3 dataUsingEncoding:NSUTF8StringEncoding];
-    NSString* returnStr = [NSPropertyListSerialization propertyListWithData:tempData
-                                                                    options:NSPropertyListImmutable
-                                                                     format:NULL
-                                                                      error:NULL];
-    
-    //NSLog(@"Output = %@", returnStr);
-    
-    return [returnStr stringByReplacingOccurrencesOfString:@"\\r\\n" withString:@"\n"];
-}
-
 #pragma mark - table view data source / delegate
 
 
@@ -128,10 +100,13 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSString *string;
-    string = [self.array objectAtIndex:section];
-    if ([string  isEqual: @"0"]) return 0;
-    else return [[self.data[section] books] count];
+    if (!self.data[section].button) {
+        return 0;
+    } else if (!self.data[section].button.isOpen) {
+        return 0;
+    } else {
+        return [[self.data[section] books] count];
+    }
 }
 
 
@@ -148,24 +123,28 @@
 
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    CGRect screen = [[UIScreen mainScreen] bounds];
-    MyButton *button = [MyButton buttonWithType:UIButtonTypeSystem];
-    button.frame = CGRectMake(0, 0, screen.size.width, 50);
-    button.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.3];
-    [button setTitle:[self.data[section] title] forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(clickHeaderInSection:) forControlEvents:UIControlEventTouchUpInside];
-    button.section = (int)section;
-    return button;
+    if (!self.data[section].button){
+        MyButton *button = [MyButton buttonWithType:UIButtonTypeSystem];
+        button.frame = CGRectMake(0, 0, self.view.bounds.size.width, 50);
+        button.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.3];
+        [button setTitle:[self.data[section] title] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(clickHeaderInSection:) forControlEvents:UIControlEventTouchUpInside];
+        button.section = (int)section;
+        button.isOpen = NO;
+        self.data[section].button = button;
+        return button;
+    } else {
+        return self.data[section].button;
+    }
 }
 
 
 - (void)clickHeaderInSection:(MyButton *)sender {
     int section = sender.section;
-    NSString *string = [self.array objectAtIndex:section];
-    if ([string  isEqual: @"0"]) {
-        [self.array replaceObjectAtIndex:section withObject:@"1"];
+    if (!sender.isOpen) {
+        self.data[section].button.isOpen = YES;
     } else {
-        [self.array replaceObjectAtIndex:section withObject:@"0"];
+        self.data[section].button.isOpen = NO;
     }
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationNone];
 }

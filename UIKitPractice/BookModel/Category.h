@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "Book.h"
-
+#import "MyButton.h"
 
 @interface Category : NSObject
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSArray <Book *> *books;
+@property (nonatomic, strong) MyButton *button;
 
 
 @end

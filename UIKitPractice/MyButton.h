@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MyButton : UIButton
 
 @property (nonatomic) int section;
+@property (nonatomic) BOOL isOpen;
 
 @end
 
