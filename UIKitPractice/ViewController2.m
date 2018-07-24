@@ -17,8 +17,6 @@
 @property (nonatomic, weak) UITableView *tableView2;
 @property (nonatomic, strong) NSMutableArray *array2;
 
-- (NSString *)replaceUnicode:(NSString *)unicodeStr;
-
 @end
 
 
@@ -61,47 +59,36 @@
 
 
 - (void)initModels {
-    Category *category = Category.new;
-    category.title = @"小学英语";
-    Book *book1 = Book.new;
-    book1.title = @"小学英语1年级";
-    book1.author = @"未知1";
+    int i, j;
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"JSONString" ofType:@"txt"];
+    NSString *jsonString = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     
-    Book *book2 = Book.new;
-    book2.title = @"小学英语2年级";
-    book2.author = @"未知2";
+    NSLog(@"%@", jsonString);
     
-    category.books = [NSArray arrayWithObjects:book1, book2, nil];
-    
-    Category *category2 = Category.new;
-    category2.title = @"初中英语";
-    Book *book3 = Book.new;
-    book3.title = @"初中英语1年级";
-    book3.author = @"未知1";
-    
-    Book *book4 = Book.new;
-    book4.title = @"初中英语2年级";
-    book4.author = @"未知2";
-    
-    Book *book5 = Book.new;
-    book5.title = @"初中英语3年级";
-    book5.author = @"未知2";
-    
-    category2.books = [NSArray arrayWithObjects:book3, book4, book5, nil];
-    
-    self.data2 = @[category, category2];
-    /*NSString *path = [[NSBundle mainBundle] pathForResource:@"JSONString" ofType:@"txt"];
-     NSString *jsonString = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-     
-     NSLog(@"%@", jsonString);
-     
-     NSData *JSONData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-     NSArray *responseJSON = nil;
-     if (JSONData) {
-     responseJSON = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableContainers error:nil];
-     }
-     
-     NSLog(@"%@", responseJSON);*/
+    NSData *JSONData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *responseJSON = nil;
+    if (JSONData) {
+        responseJSON = [NSJSONSerialization JSONObjectWithData:JSONData options:kNilOptions error:nil];
+    }
+    NSArray *arrayCategory = [responseJSON objectForKey:@"category"];
+    NSMutableArray *data = [[NSMutableArray alloc] init];
+    for (i = 0; i < arrayCategory.count; i++) {
+        Category *category = [[Category alloc] init];
+        NSDictionary *dictionaryCategory = arrayCategory[i];
+        category.title = [dictionaryCategory objectForKey:@"title"];
+        NSArray *arrayBooks = [dictionaryCategory objectForKey:@"books"];
+        NSMutableArray *array = [[NSMutableArray alloc] init];
+        for (j = 0; j < arrayBooks.count; j++) {
+            NSDictionary *dictionaryBooks = arrayBooks[j];
+            Book *book = [[Book alloc] init];
+            book.title = [dictionaryBooks objectForKey:@"title"];
+            book.author = [dictionaryBooks objectForKey:@"author"];
+            [array addObject:book];
+        }
+        category.books = array;
+        [data addObject:category];
+    }
+    self.data2 = data;
     
 }
 
